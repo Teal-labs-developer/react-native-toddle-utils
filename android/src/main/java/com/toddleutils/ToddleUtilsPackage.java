@@ -1,4 +1,4 @@
-package com.toddle;
+package com.toddleutils;
 
 import java.util.Arrays;
 import java.util.Collections;

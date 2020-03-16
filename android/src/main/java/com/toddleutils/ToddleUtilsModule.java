@@ -1,4 +1,4 @@
-package com.toddle;
+package com.toddleutils;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
