@@ -5,6 +5,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 public class ToddleUtilsModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
@@ -27,7 +32,18 @@ public class ToddleUtilsModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void isTablet(Callback callback) {
-        boolean tabletSize = reactContext.getResources().getBoolean(R.bool.isTablet);
+        boolean tabletSize = reactContext.getResources().getBoolean(R.bool.isTablet) ||
+                reactContext.getPackageManager().hasSystemFeature("org.chromium.arc.device_management");
+
         callback.invoke(tabletSize);
+    }
+
+    @Nullable
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("isTablet", reactContext.getResources().getBoolean(R.bool.isTablet) ||
+                reactContext.getPackageManager().hasSystemFeature("org.chromium.arc.device_management"));
+        return constants;
     }
 }
