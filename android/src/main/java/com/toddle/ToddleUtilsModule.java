@@ -24,4 +24,10 @@ public class ToddleUtilsModule extends ReactContextBaseJavaModule {
         // TODO: Implement some actually useful functionality
         callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
     }
+
+    @ReactMethod
+    public void isTablet(Callback callback) {
+        boolean tabletSize = reactContext.getResources().getBoolean(R.bool.isTablet);
+        callback.invoke(tabletSize);
+    }
 }
