@@ -44,6 +44,7 @@ public class ToddleUtilsModule extends ReactContextBaseJavaModule {
         final Map<String, Object> constants = new HashMap<>();
         constants.put("isTablet", reactContext.getResources().getBoolean(R.bool.isTablet) ||
                 reactContext.getPackageManager().hasSystemFeature("org.chromium.arc.device_management"));
+        constants.put("isChromeBook", reactContext.getPackageManager().hasSystemFeature("org.chromium.arc.device_management"));
         return constants;
     }
 }
