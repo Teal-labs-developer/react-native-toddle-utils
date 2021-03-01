@@ -45,7 +45,8 @@ public class ToddleUtilsModule extends ReactContextBaseJavaModule {
     public void isCallConnected(Callback callback) {
         AudioManager manager = (AudioManager)reactContext.getSystemService(Context.AUDIO_SERVICE);
         String result = "disconnected";
-        if(manager.getMode() == AudioManager.MODE_IN_CALL) {
+        int mode = manager.getMode();
+        if(mode == AudioManager.MODE_IN_CALL || mode == AudioManager.MODE_IN_COMMUNICATION) {
             result = "connected";
         }
 
