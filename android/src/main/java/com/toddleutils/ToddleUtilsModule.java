@@ -5,6 +5,9 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
+import android.content.Context;
+import android.media.AudioManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +39,17 @@ public class ToddleUtilsModule extends ReactContextBaseJavaModule {
                 reactContext.getPackageManager().hasSystemFeature("org.chromium.arc.device_management");
 
         callback.invoke(tabletSize);
+    }
+
+    @ReactMethod
+    public void isCallConnected(Callback callback) {
+        AudioManager manager = (AudioManager)reactContext.getSystemService(Context.AUDIO_SERVICE);
+        String result = "disconnected";
+        if(manager.getMode() == AudioManager.MODE_IN_CALL) {
+            result = "connected";
+        }
+
+        callback.invoke(result);
     }
 
     @Nullable
