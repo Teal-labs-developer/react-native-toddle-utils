@@ -12,14 +12,24 @@ RCT_EXPORT_MODULE()
 static RCTEventEmitter* staticEventEmitter = nil;
 static CXCallObserver* callObserver = nil;
 
+bool cannotUseCallKit;
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
         staticEventEmitter = self;
-        if (@available(iOS 10.0, *)) {
-            callObserver = [[CXCallObserver alloc] init];
-            [callObserver setDelegate:self queue:nil];
+        NSLocale *userLocale = [NSLocale currentLocale];
+        if ([userLocale.countryCode containsString: @"CN"] || [userLocale.countryCode containsString: @"CHN"]) {
+            NSLog(@"currentLocale is China so we cannot use CallKit.");
+            cannotUseCallKit = YES;
+        }
+        else{
+            cannotUseCallKit = NO;
+            if (@available(iOS 10.0, *)) {
+                callObserver = [[CXCallObserver alloc] init];
+                [callObserver setDelegate:self queue:nil];
+            }
         }
     }
     return self;
@@ -60,7 +70,7 @@ RCT_EXPORT_METHOD(isCallConnected:(RCTResponseSenderBlock)callback)
     // TODO: Implement some actually useful functionality
     NSString* result = @"disconnected";
     if (@available(iOS 10.0, *)) {
-        if(callObserver != nil){
+        if(callObserver != nil && !cannotUseCallKit){
             NSArray<CXCall *> *calls = [callObserver calls];
             for (CXCall *call in calls) {
                 // do something with object
